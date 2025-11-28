@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Mission - MapTheSea</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-bg: #0b0f12;
+            --secondary-bg: #131b23;
+            --accent-blue: #00a8e8;
+            --accent-cyan: #00d9ff;
+            --text-primary: #ffffff;
+            --text-secondary: #a8b2d1;
+            --card-bg: rgba(19, 27, 35, 0.8);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(11, 15, 18, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1.5rem 5%;
+            border-bottom: 1px solid rgba(0, 168, 232, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 400;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--accent-cyan);
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 10rem 5% 6rem;
+            text-align: center;
+            background: linear-gradient(135deg, #0b0f12 0%, #1a2332 50%, #0e4a6f 100%);
+        }
+
+        .page-header h1 {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff 0%, var(--accent-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-header p {
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Content Sections */
+        section {
+            padding: 6rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .mission-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .mission-card {
+            background: var(--card-bg);
+            padding: 3rem;
+            border-radius: 16px;
+            border: 1px solid rgba(0, 168, 232, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .mission-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .mission-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .mission-card h3 {
+            font-size: 1.5rem;
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+        }
+
+        .mission-card p {
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            background: linear-gradient(135deg, rgba(0, 168, 232, 0.1), rgba(0, 217, 255, 0.1));
+            border-radius: 16px;
+            padding: 4rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 168, 232, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-bg);
+            text-align: center;
+            padding: 3rem 5%;
+            border-top: 1px solid rgba(0, 168, 232, 0.1);
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-header {
+                padding: 8rem 5% 4rem;
+            }
+
+            section {
+                padding: 4rem 5%;
+            }
+
+            .mission-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">MAPTHESEA</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="mission.html" class="active">Mission</a></li>
+                <li><a href="how-it-works.html">How It Works</a></li>
+                <li><a href="vision.html">Vision</a></li>
+                <li><a href="roadmap.html">Roadmap</a></li>
+                <li><a href="join.html">Join</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1>Our Mission</h1>
+        <p>Democratizing underwater exploration through affordable, accessible mapping technology</p>
+    </div>
+
+    <!-- Main Content -->
+    <section>
+        <h2>Why We Exist</h2>
+        <p>Over 80% of the ocean remains unmapped and unexplored. Lakes, rivers, and coastal regions hold countless mysteries, yet traditional underwater mapping requires expensive ROVs, specialized vessels, and expert operators—putting this technology out of reach for most researchers, conservationists, and explorers.</p>
+        <p>MapTheSea was founded on a simple belief: underwater exploration should be accessible to everyone. We're building autonomous underwater vehicles that use commodity sensors, 3D-printed components, and open-source software to map underwater environments at a fraction of traditional costs.</p>
+        <p>Our mission extends beyond technology. We're creating a platform that enables scientists to study marine ecosystems, helps search-and-rescue teams locate missing persons, allows infrastructure inspectors to assess underwater structures, and empowers curious explorers to discover what lies beneath the surface.</p>
+
+        <div class="mission-grid">
+            <div class="mission-card">
+                <div class="mission-icon">🌊</div>
+                <h3>Accessibility</h3>
+                <p>Making underwater mapping technology affordable and available to researchers, organizations, and individuals worldwide.</p>
+            </div>
+            <div class="mission-card">
+                <div class="mission-icon">🔬</div>
+                <h3>Innovation</h3>
+                <p>Pushing the boundaries of autonomous underwater systems through modular design and open-source collaboration.</p>
+            </div>
+            <div class="mission-card">
+                <div class="mission-icon">🌍</div>
+                <h3>Impact</h3>
+                <p>Enabling environmental conservation, scientific research, emergency response, and exploration of Earth's final frontier.</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Our Values</h2>
+        <p><strong>Open Innovation:</strong> We believe in transparent development and open-source principles. Our progress, challenges, and learnings are shared with the community.</p>
+        <p><strong>Practical Design:</strong> Every component is selected for real-world reliability and affordability. We prioritize solutions that work in challenging environments over theoretical perfection.</p>
+        <p><strong>Mission-Driven:</strong> Technology serves a purpose. We're focused on applications that create tangible value—from saving lives in search-and-rescue operations to preserving marine ecosystems.</p>
+
+        <div class="cta-section">
+            <h2>Join Our Mission</h2>
+            <p>Be part of the underwater exploration revolution</p>
+            <a href="join.html" class="btn btn-primary">Get Involved</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 MapTheSea — Exploring the unseen.</p>
+    </footer>
+</body>
+</html>
