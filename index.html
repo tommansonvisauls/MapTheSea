@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MapTheSea - Exploring the Unseen</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-bg: #0b0f12;
+            --secondary-bg: #131b23;
+            --accent-blue: #00a8e8;
+            --accent-cyan: #00d9ff;
+            --text-primary: #ffffff;
+            --text-secondary: #a8b2d1;
+            --card-bg: rgba(19, 27, 35, 0.8);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(11, 15, 18, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1.5rem 5%;
+            border-bottom: 1px solid rgba(0, 168, 232, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 400;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-cyan);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0b0f12 0%, #1a2332 50%, #0e4a6f 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(0, 168, 232, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 217, 255, 0.1) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 0.3s;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            letter-spacing: 4px;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 0%, var(--accent-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: clamp(1.2rem, 2vw, 1.5rem);
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 168, 232, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--accent-cyan);
+            border: 2px solid var(--accent-cyan);
+        }
+
+        .btn-secondary:hover {
+            background: var(--accent-cyan);
+            color: var(--primary-bg);
+        }
+
+        /* Section Styling */
+        section {
+            padding: 8rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+            opacity: 0;
+            animation: fadeIn 0.8s ease forwards;
+            animation-timeline: view();
+            animation-range: entry 0% cover 30%;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        h2 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            max-width: 700px;
+        }
+
+        /* Mission Section */
+        .mission-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .mission-text p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .mission-visual {
+            background: var(--card-bg);
+            padding: 3rem;
+            border-radius: 16px;
+            border: 1px solid rgba(0, 168, 232, 0.2);
+            text-align: center;
+        }
+
+        .mission-visual svg {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            background: var(--secondary-bg);
+            margin: 0;
+            max-width: 100%;
+            padding: 8rem 5%;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .step-card {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 16px;
+            border: 1px solid rgba(0, 168, 232, 0.2);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            text-align: center;
+        }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-cyan);
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 1.5rem;
+        }
+
+        .step-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .step-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Prototype Section */
+        .prototype-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .prototype-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 168, 232, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .prototype-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .prototype-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, #1a2332, #0e4a6f);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 3rem;
+        }
+
+        .prototype-info {
+            padding: 2rem;
+        }
+
+        .prototype-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-cyan);
+        }
+
+        .prototype-info p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Roadmap */
+        .roadmap {
+            background: var(--secondary-bg);
+            margin: 0;
+            max-width: 100%;
+            padding: 8rem 5%;
+        }
+
+        .roadmap-timeline {
+            position: relative;
+            padding-left: 3rem;
+            margin-top: 4rem;
+        }
+
+        .roadmap-timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--accent-blue), var(--accent-cyan));
+        }
+
+        .roadmap-item {
+            position: relative;
+            margin-bottom: 3rem;
+            padding-left: 2rem;
+        }
+
+        .roadmap-item::before {
+            content: '';
+            position: absolute;
+            left: -3.5rem;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            border: 3px solid var(--secondary-bg);
+        }
+
+        .roadmap-item h3 {
+            font-size: 1.5rem;
+            color: var(--accent-cyan);
+            margin-bottom: 0.5rem;
+        }
+
+        .roadmap-item p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            background: linear-gradient(135deg, rgba(0, 168, 232, 0.1), rgba(0, 217, 255, 0.1));
+            border-radius: 16px;
+            padding: 6rem 3rem;
+        }
+
+        .cta-section h2 {
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .social-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-link:hover {
+            color: var(--accent-cyan);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-bg);
+            text-align: center;
+            padding: 3rem 5%;
+            border-top: 1px solid rgba(0, 168, 232, 0.1);
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem 5%;
+            }
+
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .mission-content {
+                grid-template-columns: 1fr;
+            }
+
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+
+            section {
+                padding: 5rem 5%;
+            }
+
+            .cta-section {
+                padding: 4rem 2rem;
+            }
+
+            .roadmap-timeline {
+                padding-left: 2rem;
+            }
+        }
+
+        /* Mobile menu toggle (hidden by default) */
+        .menu-toggle {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">MAPTHESEA</div>
+            <ul class="nav-links">
+                <li><a href="#mission">Mission</a></li>
+                <li><a href="#how">How It Works</a></li>
+                <li><a href="#prototype">Prototype</a></li>
+                <li><a href="#roadmap">Roadmap</a></li>
+                <li><a href="#join">Join</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>MAPTHESEA</h1>
+            <p>Exploring the unseen. Mapping the depths.</p>
+            <div class="cta-buttons">
+                <a href="#mission" class="btn btn-primary">Learn More</a>
+                <a href="#join" class="btn btn-secondary">Join the Mission</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section id="mission">
+        <h2>Our Mission</h2>
+        <p class="section-subtitle">Creating the world's first affordable underwater mapping platform</p>
+        <div class="mission-content">
+            <div class="mission-text">
+                <p>The ocean floor, lake beds, and coastal waters remain largely unmapped. Traditional underwater mapping requires expensive equipment and specialized vessels, making comprehensive mapping impossible for most applications.</p>
+                <p>MapTheSea is developing autonomous underwater drones that use simple sensors, cameras, and GPS buoys to create detailed maps at a fraction of traditional costs. Our early-stage prototypes demonstrate the viability of democratizing underwater exploration.</p>
+                <p>We're in active R&D, testing propulsion systems and sensor integration to build scalable, modular underwater mapping vehicles that anyone can deploy.</p>
+            </div>
+            <div class="mission-visual">
+                <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="100" cy="100" r="80" stroke="url(#gradient)" stroke-width="2" opacity="0.3"/>
+                    <circle cx="100" cy="100" r="60" stroke="url(#gradient)" stroke-width="2" opacity="0.5"/>
+                    <circle cx="100" cy="100" r="40" stroke="url(#gradient)" stroke-width="2" opacity="0.7"/>
+                    <circle cx="100" cy="100" r="8" fill="url(#gradient)"/>
+                    <defs>
+                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#00a8e8;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#00d9ff;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how" class="how-it-works">
+        <h2>How It Works</h2>
+        <p class="section-subtitle">Simple technology. Powerful results.</p>
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h3>Underwater Drone</h3>
+                <p>Autonomous vehicle navigates beneath the surface using onboard propulsion and stabilization systems.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h3>GPS Buoy</h3>
+                <p>Surface buoy maintains GPS connection, providing precise location data for underwater positioning.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3>Sensor Array</h3>
+                <p>Camera, depth sensor, and temperature probe capture environmental data at regular intervals.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">4</div>
+                <h3>Map Generation</h3>
+                <p>Data is processed and stitched into comprehensive underwater maps using photogrammetry algorithms.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Prototype Section -->
+    <section id="prototype">
+        <h2>Current Prototypes</h2>
+        <p class="section-subtitle">Building the future, one iteration at a time</p>
+        <div class="prototype-grid">
+            <div class="prototype-card">
+                <div class="prototype-image">🔧</div>
+                <div class="prototype-info">
+                    <h3>Prototype V1 - 50cm Model</h3>
+                    <p>Our initial test platform focused on propulsion validation. Features modular 3D-printed components and off-the-shelf motors. Currently testing thrust-to-weight ratios and battery efficiency in controlled environments.</p>
+                </div>
+            </div>
+            <div class="prototype-card">
+                <div class="prototype-image">🚀</div>
+                <div class="prototype-info">
+                    <h3>Prototype V2 - 1m Model</h3>
+                    <p>Scaled-up design incorporating improved autonomy systems and sensor integration. Enhanced buoyancy control and longer mission duration. Target deployment: lake mapping trials.</p>
+                </div>
+            </div>
+            <div class="prototype-card">
+                <div class="prototype-image">⚙️</div>
+                <div class="prototype-info">
+                    <h3>Low-Cost Philosophy</h3>
+                    <p>Every component is selected for affordability and accessibility. 3D-printed chassis, commodity sensors, and open-source software keep costs minimal while maintaining professional-grade performance.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap -->
+    <section id="roadmap" class="roadmap">
+        <h2>Future Vision</h2>
+        <p class="section-subtitle">The journey ahead</p>
+        <div class="roadmap-timeline">
+            <div class="roadmap-item">
+                <h3>Prototype V1 Testing</h3>
+                <p>Initial lake trials and propulsion system validation</p>
+            </div>
+            <div class="roadmap-item">
+                <h3>Prototype V2 Development</h3>
+                <p>Enhanced autonomy, sensor fusion, and mission planning</p>
+            </div>
+            <div class="roadmap-item">
+                <h3>Underwater Photogrammetry</h3>
+                <p>Implementing 3D reconstruction from camera data</p>
+            </div>
+            <div class="roadmap-item">
+                <h3>Full Mapping Platform</h3>
+                <p>Complete end-to-end system for autonomous mapping missions</p>
+            </div>
+            <div class="roadmap-item">
+                <h3>Search & Rescue Applications</h3>
+                <p>Adapting technology for emergency response and object location</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="join">
+        <div class="cta-section">
+            <h2>Follow The Journey</h2>
+            <p>Join us as we map the unexplored depths of our planet</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-primary">Join Discord</a>
+                <a href="#" class="btn btn-secondary">Subscribe for Updates</a>
+            </div>
+            <div class="social-links">
+                <a href="#" class="social-link">Twitter</a>
+                <a href="#" class="social-link">LinkedIn</a>
+                <a href="#" class="social-link">GitHub</a>
+                <a href="#" class="social-link">Email</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 MapTheSea — Exploring the unseen.</p>
+    </footer>
+
+    <script>
+        // Smooth scroll animation enhancement
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll-based navbar background
+        let lastScroll = 0;
+        const nav = document.querySelector('nav');
+        
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 100) {
+                nav.style.background = 'rgba(11, 15, 18, 0.98)';
+            } else {
+                nav.style.background = 'rgba(11, 15, 18, 0.95)';
+            }
+            
+            lastScroll = currentScroll;
+        });
+    </script>
+</body>
+</html>
