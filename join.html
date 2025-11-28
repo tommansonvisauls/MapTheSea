@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join - MapTheSea</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-bg: #0b0f12;
+            --secondary-bg: #131b23;
+            --accent-blue: #00a8e8;
+            --accent-cyan: #00d9ff;
+            --text-primary: #ffffff;
+            --text-secondary: #a8b2d1;
+            --card-bg: rgba(19, 27, 35, 0.8);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(11, 15, 18, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1.5rem 5%;
+            border-bottom: 1px solid rgba(0, 168, 232, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 400;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--accent-cyan);
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 10rem 5% 6rem;
+            text-align: center;
+            background: linear-gradient(135deg, #0b0f12 0%, #1a2332 50%, #0e4a6f 100%);
+        }
+
+        .page-header h1 {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff 0%, var(--accent-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-header p {
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Content Sections */
+        section {
+            padding: 6rem 5%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        /* Contact Form */
+        .contact-form {
+            background: var(--card-bg);
+            padding: 3rem;
+            border-radius: 16px;
+            border: 1px solid rgba(0, 168, 232, 0.2);
+            margin: 3rem 0;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background: var(--secondary-bg);
+            border: 1px solid rgba(0, 168, 232, 0.2);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 1.25rem;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 168, 232, 0.3);
+        }
+
+        .form-message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+
+        .form-message.success {
+            background: rgba(0, 217, 255, 0.1);
+            border: 1px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+            display: block;
+        }
+
+        .form-message.error {
+            background: rgba(255, 59, 48, 0.1);
+            border: 1px solid #ff3b30;
+            color: #ff3b30;
+            display: block;
+        }
+
+        /* Ways to Contribute */
+        .contribute-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .contribute-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 168, 232, 0.2);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .contribute-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .contribute-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .contribute-card h3 {
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .contribute-card p {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Social Links */
+        .social-section {
+            background: var(--secondary-bg);
+            max-width: 100%;
+            margin: 0;
+            padding: 6rem 5%;
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 168, 232, 0.2);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            color: var(--accent-cyan);
+            border-color: var(--accent-cyan);
+            transform: translateY(-2px);
+        }
+
+        .social-icon {
+            font-size: 1.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-bg);
+            text-align: center;
+            padding: 3rem 5%;
+            border-top: 1px solid rgba(0, 168, 232, 0.1);
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-header {
+                padding: 8rem 5% 4rem;
+            }
+
+            section {
+                padding: 4rem 5%;
+            }
+
+            .contact-form {
+                padding: 2rem;
+            }
+
+            .contribute-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .social-links {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .social-link {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">MAPTHESEA</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="mission.html">Mission</a></li>
+                <li><a href="how-it-works.html">How It Works</a></li>
+                <li><a href="vision.html">Vision</a></li>
+                <li><a href="roadmap.html">Roadmap</a></li>
+                <li><a href="join.html" class="active">Join</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1>Join The Mission</h1>
+        <p>Be part of the underwater exploration revolution</p>
+    </div>
+
+    <!-- Main Content -->
+    <section>
+        <h2>Get In Touch</h2>
+        <p>Whether you're a potential collaborator, investor, early adopter, or just curious about our progress, we'd love to hear from you. Fill out the form below and we'll get back to you as soon as possible.</p>
+
+        <div class="contact-form">
+            <div id="formMessage" class="form-message"></div>
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="name">Name *</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="interest">Area of Interest</label>
+                    <input type="text" id="interest" name="interest" placeholder="e.g., Collaboration, Investment, Early Access">
+                </div>
+                <div class="form-group">
+                    <label for="message">Message *</label>
+                    <textarea id="message" name="message" required placeholder="Tell us about your interest in MapTheSea..."></textarea>
+                </div>
+                <button type="submit" class="btn-submit">Send Message</button>
+            </form>
+        </div>
+
+        <h2>Ways to Contribute</h2>
+        <p>There are many ways to get involved with MapTheSea, whether you're a technical expert or simply passionate about underwater exploration.</p>
+
+        <div class="contribute-grid">
+            <div class="contribute-card">
+                <div class="contribute-icon">💻</div>
+                <h3>Software Development</h3>
+                <p>Contribute to autopilot systems, mapping algorithms, or web platform development.</p>
+            </div>
+            <div class="contribute-card">
+                <div class="contribute-icon">🔧</div>
+                <h3>Hardware Engineering</h3>
+                <p>Help design and test vehicle components, sensors, and mechanical systems.</p>
+            </div>
+            <div class="contribute-card">
+                <div class="contribute-icon">🧪</div>
+                <h3>Field Testing</h3>
+                <p>Deploy prototypes in your local waters and share data and feedback.</p>
+            </div>
+            <div class="contribute-card">
+                <div class="contribute-icon">📢</div>
+                <h3>Community Building</h3>
+                <p>Help spread the word, create content, and grow the MapTheSea community.</p>
+            </div>
+            <div class="contribute-card">
+                <div class="contribute-icon">💰</div>
+                <h3>Funding & Support</h3>
+                <p>Invest in development, sponsor equipment, or help secure grants.</p>
+            </div>
+            <div class="contribute-card">
+                <div class="contribute-icon">🎓</div>
+                <h3>Research Collaboration</h3>
+                <p>Partner on academic research or provide domain expertise.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="social-section">
+        <h2>Connect With Us</h2>
+        <p>Follow our journey, join discussions, and stay updated on the latest developments</p>
+
+        <div class="social-links">
+            <a href="#" class="social-link">
+                <span class="social-icon">💬</span>
+                Discord Community
+            </a>
+            <a href="#" class="social-link">
+                <span class="social-icon">🐦</span>
+                Twitter / X
+            </a>
+            <a href="#" class="social-link">
+                <span class="social-icon">💼</span>
+                LinkedIn
+            </a>
+            <a href="#" class="social-link">
+                <span class="social-icon">📧</span>
+                Newsletter
+            </a>
+            <a href="#" class="social-link">
+                <span class="social-icon">💻</span>
+                GitHub
+            </a>
+            <a href="#" class="social-link">
+                <span class="social-icon">📺</span>
+                YouTube
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 MapTheSea — Exploring the unseen.</p>
+    </footer>
+
+    <script>
+        // Form Validation and Submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formMessage = document.getElementById('formMessage');
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const message = document.getElementById('message').value.trim();
+
+            // Basic validation
+            if (!name || !email || !message) {
+                formMessage.textContent = 'Please fill in all required fields.';
+                formMessage.className = 'form-message error';
+                return;
+            }
+
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                formMessage.textContent = 'Please enter a valid email address.';
+                formMessage.className = 'form-message error';
+                return;
+            }
+
+            // Simulate form submission (replace with actual backend call)
+            formMessage.textContent = 'Thank you for your message! We\'ll get back to you soon.';
+            formMessage.className = 'form-message success';
+            
+            // Reset form
+            this.reset();
+        });
+    </script>
+</body>
+</html>
